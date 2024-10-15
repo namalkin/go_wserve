@@ -2,6 +2,7 @@ package go_wserve
 
 import (
 	"context"
+	"errors"
 	"net/http"
 	"time"
 )
@@ -22,5 +23,9 @@ func (s *Server) Run(port string, handler http.Handler) error {
 }
 
 func (s *Server) Shutdown(ctx context.Context) error {
+	if s.httpServer == nil {
+		return errors.New("сервер не был запущен")
+	}
 	return s.httpServer.Shutdown(ctx)
+
 }
