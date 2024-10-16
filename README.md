@@ -56,3 +56,22 @@ migrate -path ./shema -database 'postgres://postgres:qwerty@localhost:5436/postg
 psql -U postgres
 update schema_migrations set version='000001', dirty=false;
 ```
+для работы с базой данных `psql`
+```shell
+docker ps
+docker exec -it 179bf18a37d7 /bin/bash
+psql -U postgres
+# select * from users;
+```
+---
+
+### Регистрация:
+
+Пользователь регистрируется с хешированным паролем, если отправить **POST** запрос с телом:
+```json
+{
+    "name": "namalkin",
+    "username": "nanomalkin",
+    "password": "qwerty"
+}
+```
