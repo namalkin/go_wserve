@@ -39,4 +39,20 @@ go run cmd/main.go
 
 ### Подключение postgres:
 
-К `repository` добавлено подключение базы данных postgres. Через файлы **config.yml** и **.env** устанавливается конфигурация для подключения к ней
+К `repository` добавлено подключение базы данных postgres. Через файлы **config.yml** и **.env** устанавливается конфигурация для подключения к ней.
+
+Команды выполнения через Docker
+```shell
+docker run --name=go_verse-db -e POSTGRES_PASSWORD='qwerty' -p 5436:5432 -d --rm postgres
+brew install golang-migrate
+976  migrate create -ext sql -dir ./shema -seq init
+migrate -path ./shema -database 'postgres://postgres:qwerty@localhost:5436/postgres?sslmode=disable' up
+docker exec -it 179bf18a37d7 /bin/bash
+psql -U postgres
+migrate -path ./shema -database 'postgres://postgres:qwerty@localhost:5436/postgres?sslmode=disable' down
+```
+для обновления файла миграции
+```shell
+psql -U postgres
+update schema_migrations set version='000001', dirty=false;
+```
