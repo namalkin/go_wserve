@@ -7,6 +7,7 @@ import (
 
 type Authorisation interface {
 	CreateUser(user go_wserve.User) (int, error)
+	GenerateToken(isername, password string) (string, error)
 }
 
 type TodoList interface {

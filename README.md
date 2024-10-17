@@ -45,11 +45,10 @@ go run cmd/main.go
 ```shell
 docker run --name=go_verse-db -e POSTGRES_PASSWORD='qwerty' -p 5436:5432 -d --rm postgres
 brew install golang-migrate
-976  migrate create -ext sql -dir ./shema -seq init
+migrate create -ext sql -dir ./shema -seq init
 migrate -path ./shema -database 'postgres://postgres:qwerty@localhost:5436/postgres?sslmode=disable' up
 docker exec -it 179bf18a37d7 /bin/bash
 psql -U postgres
-migrate -path ./shema -database 'postgres://postgres:qwerty@localhost:5436/postgres?sslmode=disable' down
 ```
 для обновления файла миграции
 ```shell
@@ -67,10 +66,19 @@ psql -U postgres
 
 ### Регистрация:
 
-Пользователь регистрируется с хешированным паролем, если отправить **POST** запрос с телом:
+Пользователь регистрируется с хешированным паролем, если отправить **POST** запрос на `:8080/auth/sign-up` телом:
 ```json
 {
     "name": "namalkin",
+    "username": "nanomalkin",
+    "password": "qwerty"
+}
+```
+### Идентификация jwt:
+
+Пользователь вернёт созданный jwt токен если отправить **POST** запрос на `:8080/auth/sign-in` телом:
+```json
+{
     "username": "nanomalkin",
     "password": "qwerty"
 }
